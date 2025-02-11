@@ -88,15 +88,5 @@ The result of the visualisation is:
 	python main.py
 	to run both the analysis and visualisation subsequently.
 
-
-Github anonymus
-
-Step by step guide for video itself. 
-Missing person + graph
-
-Nina Switch computing
-
-Tabular output, graphical output
-
-Videos combined with graph. explained
-
+Special Thanks to:
+Peter & David
