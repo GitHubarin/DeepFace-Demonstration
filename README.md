@@ -2,11 +2,6 @@
 
 This project uses DeepFace for emotion analysis on videos and generates both static plots and animations from the analysis. 
 
-#################################################################################
-# Note: DeepFace is set up to test for seven emotions: happy, sad, angry, surprised, disgusted, fearful, and neutral. In the final outcome with our videos not all emotions were displayed. Reason being is that they were either not expressed or did not surpass the chosen 80% threshold.
-# FACS emotions are: joy, sadness, anger, surprise, fear, disgust, and contempt. Contempt as an emotion is not measured by DeepFace.
-################################################################################
-
 ## Prerequisites
 
 1. **Windows:**
@@ -63,7 +58,8 @@ This project uses DeepFace for emotion analysis on videos and generates both sta
 	python main.py analysis --sampling_rate 1
 	also works because the default value for the sampling rate is 1.
 
-Output
+The result of the analysis is:
+- One .csv file of the analysis by DeepFace 
 
 
 ### 5. Run the visualisation
@@ -87,6 +83,11 @@ The result of the visualisation is:
 - If choosing to do both the analysis and visualisation, you can also just write:
 	python main.py
 	to run both the analysis and visualisation subsequently.
+
+#################################################################################
+**Note**: DeepFace is set up to test for seven emotions: happy, sad, angry, surprised, disgusted, fearful, and neutral. In the final outcome with our videos not all emotions were displayed. Reason being is that they were either not expressed or did not surpass the chosen 80% threshold.
+FACS emotions are: joy, sadness, anger, surprise, fear, disgust, and contempt. Contempt as an emotion is not measured by DeepFace.
+################################################################################
 
 Special Thanks to:
 Peter & David
