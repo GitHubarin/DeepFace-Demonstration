@@ -85,8 +85,10 @@ The result of the visualisation is:
 	to run both the analysis and visualisation subsequently.
 
 #################################################################################
+
 **Note**: DeepFace is set up to test for seven emotions: happy, sad, angry, surprised, disgusted, fearful, and neutral. In the final outcome with our videos not all emotions were displayed. Reason being is that they were either not expressed or did not surpass the chosen 80% threshold.
 FACS emotions are: joy, sadness, anger, surprise, fear, disgust, and contempt. Contempt as an emotion is not measured by DeepFace.
+
 ################################################################################
 
 Special Thanks to:
