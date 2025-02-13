@@ -1,0 +1,25 @@
+# Third-party libraries
+opencv-python
+deepface
+pandas
+numpy
+matplotlib
+psutil
+py7zr==0.22.0
+ffmpeg-installer
+
+# Standard libraries (for reference only)
+os
+sys
+platform
+zipfile
+shutil
+datetime
+time
+glob
+subprocess
+multiprocessing
+logging
+argparse
+warnings
+importlib.util

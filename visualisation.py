@@ -205,6 +205,8 @@ def create_static_plot_for_file(csv_file):
 # MAIN VISUALISATION FUNCTION
 ###############################################################################
 def run_visualisation(sheet=""):
+    # Start the global timer for the visualization process
+    overall_start = time.time()
     if sheet:
         csv_files = [os.path.join(os.getcwd(), config.ANALYSIS_DIR, sheet)]
     else:
@@ -302,6 +304,15 @@ def run_visualisation(sheet=""):
             print("FFmpeg not found! Please install it.")
 
         print("Animation creation complete for this file.\n")
+
+        # Stop the global timer for the visualization process
+    overall_end = time.time()
+    overall_duration = overall_end - overall_start
+    print(
+        f"Total visualization time: {overall_duration:.2f} seconds "
+        f"(started at {datetime.fromtimestamp(overall_start).strftime('%Y-%m-%d %H:%M:%S')}, "
+        f"finished at {datetime.fromtimestamp(overall_end).strftime('%Y-%m-%d %H:%M:%S')})."
+    )
         
 
 if __name__ == "__main__":
