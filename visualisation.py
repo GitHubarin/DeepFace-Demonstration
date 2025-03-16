@@ -20,6 +20,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # Set directories based on config.
 BASE_DIR = os.getcwd()
 ANALYSIS_DIR = os.path.join(BASE_DIR, config.ANALYSIS_DIR)
+CSV_DIR = os.path.join(ANALYSIS_DIR, config.CSV_DIR)
 PLOTS_DIR = os.path.join(BASE_DIR, config.PLOTS_DIR)
 ANIMATIONS_DIR = os.path.join(BASE_DIR, config.ANIMATIONS_DIR)
 os.makedirs(PLOTS_DIR, exist_ok=True)
@@ -30,6 +31,7 @@ FRAME_RATE = config.FRAME_RATE
 CONFIDENCE_THRESHOLD = config.CONFIDENCE_THRESHOLD
 PLOT_WIDTH = config.PLOT_WIDTH
 PLOT_HEIGHT = config.PLOT_HEIGHT
+PLOT_DPI = config.PLOT_DPI
 NUM_SEGMENTS = config.NUM_SEGMENTS
 POOL_SIZE = config.POOL_SIZE
 
@@ -76,7 +78,7 @@ def produce_segment(seg_index, segment_start_frame, segment_end_frame, total_fra
         times = segment_frames / FRAME_RATE
 
         # Create figure and axis
-        fig, ax = plt.subplots(figsize=(PLOT_WIDTH, PLOT_HEIGHT), dpi=100, constrained_layout=True)
+        fig, ax = plt.subplots(figsize=(PLOT_WIDTH, PLOT_HEIGHT), dpi=PLOT_DPI, constrained_layout=True)
         df, title_str = all_data[0]
         ax.set_title(f"{title_str}", fontsize=12, style='italic', pad=6)
         ax.set_ylabel("Confidence (%)")
@@ -173,7 +175,7 @@ def create_static_plot_for_file(csv_file):
     df['time_sec'] = df['frame_number'] / FRAME_RATE
     base_name = os.path.splitext(os.path.basename(csv_file))[0]
     title = base_name.replace("_emotional_analysis", "")
-    fig, ax = plt.subplots(figsize=(PLOT_WIDTH, PLOT_HEIGHT), dpi=100, constrained_layout=True)
+    fig, ax = plt.subplots(figsize=(PLOT_WIDTH, PLOT_HEIGHT), dpi=PLOT_DPI, constrained_layout=True)
     ax.set_title(f"{title}", fontsize=12, style='italic', pad=6)
     ax.set_ylabel("Confidence (%)")
     ax.set_ylim(CONFIDENCE_THRESHOLD, 100)
@@ -208,10 +210,10 @@ def run_visualisation(sheet=""):
     # Start the global timer for the visualization process
     overall_start = time.time()
     if sheet:
-        csv_files = [os.path.join(os.getcwd(), config.ANALYSIS_DIR, sheet)]
+        csv_files = [os.path.join(CSV_DIR, sheet)]
     else:
-        csv_files = glob.glob(os.path.join(os.getcwd(), config.ANALYSIS_DIR, "*_emotional_analysis.csv"))
-        combined_file = os.path.join(os.getcwd(), config.ANALYSIS_DIR, "combined_emotional_analysis.csv")
+        csv_files = glob.glob(os.path.join(CSV_DIR, "*_emotional_analysis.csv"))
+        combined_file = os.path.join(CSV_DIR, "combined_emotional_analysis.csv")
         if combined_file in csv_files:
             csv_files.remove(combined_file)
 
@@ -301,7 +303,7 @@ def run_visualisation(sheet=""):
         except subprocess.CalledProcessError as e:
             print(f"FFmpeg error: {e}")
         except FileNotFoundError:
-            print("FFmpeg not found! Please install it.")
+            print("FFmpeg could not find any files to combine.")
 
         print("Animation creation complete for this file.\n")
 

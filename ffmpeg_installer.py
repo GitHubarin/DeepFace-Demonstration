@@ -27,7 +27,8 @@ def is_ffmpeg_installed(ffmpeg_bin):
     Returns:
         bool: True if FFmpeg is installed, False otherwise.
     """
-    ffmpeg_exe = os.path.join(ffmpeg_bin, "ffmpeg.exe")
+    binary = "ffmpeg.exe" if platform.system() == "Windows" else "ffmpeg"
+    ffmpeg_exe = os.path.join(ffmpeg_bin, binary)
     return os.path.exists(ffmpeg_bin) and os.path.exists(ffmpeg_exe)
 
 
@@ -48,9 +49,10 @@ def validate_ffmpeg_directory(ffmpeg_dir):
     if not os.path.exists(ffmpeg_bin):
         print(f"Error: The 'bin' directory is missing in the extracted FFmpeg files at {ffmpeg_bin}.")
         return None
-    ffmpeg_exe = os.path.join(ffmpeg_bin, "ffmpeg.exe")
+    binary = "ffmpeg.exe" if platform.system() == "Windows" else "ffmpeg"
+    ffmpeg_exe = os.path.join(ffmpeg_bin, binary)
     if not os.path.exists(ffmpeg_exe):
-        print(f"Error: ffmpeg.exe not found in the expected location: {ffmpeg_exe}.")
+        print(f"Error: {binary} not found in the expected location: {ffmpeg_exe}.")
         return None
     return ffmpeg_bin
 
@@ -100,38 +102,50 @@ def download_and_install_ffmpeg():
     This function is currently implemented for Windows only.
     It downloads the FFmpeg ZIP file, extracts it, and appends the bin directory to the system PATH.
     """
-    if platform.system() != "Windows":
-        print("FFmpeg installation is not yet automated for this OS.")
-        sys.exit(1)
+    if platform.system() == "Windows":
+        # Define constants
+        ffmpeg_url = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip"
+        ffmpeg_dir = "ffmpeg"
 
-    # Define constants
-    ffmpeg_url = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip"
-    ffmpeg_dir = "ffmpeg"
+        # Check if FFmpeg is already downloaded and extracted
+        if os.path.exists(ffmpeg_dir):
+            ffmpeg_bin = validate_ffmpeg_directory(ffmpeg_dir)
+            if ffmpeg_bin and is_ffmpeg_installed(ffmpeg_bin):
+                print("FFmpeg is already downloaded and installed locally.")
+                add_to_path_if_needed(ffmpeg_bin)
+                if is_ffmpeg_setup():
+                    print("FFmpeg is ready to use!")
+                    return
+            else:
+                print("Existing FFmpeg installation is incomplete. Reinstalling...")
 
-    # Check if FFmpeg is already downloaded and extracted
-    if os.path.exists(ffmpeg_dir):
-        ffmpeg_bin = validate_ffmpeg_directory(ffmpeg_dir)
-        if ffmpeg_bin and is_ffmpeg_installed(ffmpeg_bin):
-            print("FFmpeg is already downloaded and installed locally.")
-            add_to_path_if_needed(ffmpeg_bin)
-            if is_ffmpeg_setup():
-                print("FFmpeg is ready to use!")
-                return
+        # Download and extract FFmpeg
+        ffmpeg_bin = download_and_extract_ffmpeg(ffmpeg_url, ffmpeg_dir)
+        if not ffmpeg_bin:
+            print("FFmpeg installation failed.")
+            sys.exit(1)
+
+        # Add FFmpeg to PATH and verify installation
+        add_to_path_if_needed(ffmpeg_bin)
+        if is_ffmpeg_setup():
+            print("FFmpeg installed successfully!")
         else:
-            print("Existing FFmpeg installation is incomplete. Reinstalling...")
-
-    # Download and extract FFmpeg
-    ffmpeg_bin = download_and_extract_ffmpeg(ffmpeg_url, ffmpeg_dir)
-    if not ffmpeg_bin:
-        print("FFmpeg installation failed.")
-        sys.exit(1)
-
-    # Add FFmpeg to PATH and verify installation
-    add_to_path_if_needed(ffmpeg_bin)
-    if is_ffmpeg_setup():
-        print("FFmpeg installed successfully!")
+            print("FFmpeg installation failed after extraction.")
+            sys.exit(1)
+    elif platform.system() == "Darwin":
+        print("macOS (Darwin) detected. Installing FFmpeg via Homebrew...")
+        try:
+            subprocess.check_call(["brew", "install", "ffmpeg"])
+        except subprocess.CalledProcessError as e:
+            print(f"Homebrew installation of FFmpeg failed: {e}")
+            sys.exit(1)
+        if is_ffmpeg_setup():
+            print("FFmpeg installed via Homebrew and is ready to use!")
+        else:
+            print("FFmpeg installation via Homebrew failed.")
+            sys.exit(1)
     else:
-        print("FFmpeg installation failed after extraction.")
+        print("Automated FFmpeg installation is not supported on this operating system.")
         sys.exit(1)
 
 
