@@ -53,12 +53,9 @@ logging.basicConfig(
 def get_num_processes():
     """
     Function to determine the number of physical cores and based on them make a balanced decision on the
-    number of simultaneous processes to run. Since we are assuming the machine running the code to also
-    be able to do other lightweight work, we have halved the number of CPU cores for a less intense operation.
-    Adjust as seen fit, e.g., by deleting the //2 at the end to stop the halving or just writing your
-    preferred number of simultaneous processes after "return".
+    number of simultaneous processes to run.
     Returns:
-        int: The number of simultaneous processes to be initiated during multiprocessing.
+        int: The number of simultaneous processes defined in the config.py file and if nothing is found, sets the value to 4.
     """
     processes = config.POOL_SIZE
     return processes if processes else 4
