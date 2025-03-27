@@ -34,7 +34,7 @@ This project analyzes emotions in videos using **DeepFace** and generates three 
 - **Static emotion distribution plots**: Visual representations of overall emotional trends.
 - **Animated timeline visualizations**: Dynamic timelines showing how emotions evolve throughout the video.
 - **Detailed CSV/Excel analysis reports**: Comprehensive data files containing emotion scores for each frame.
-- **Edited final product**: You can download a recommended depiction of the analysis under [this link]{https://drive.proton.me/urls/2GPMK16D38#jHc1r4JrN2N7}. This has been edited to show the visualisation created by this project with the videos where the analysis originated from simultaneously.
+- **Edited final product**: You can download a recommended depiction of the analysis under [this link](https://drive.proton.me/urls/2GPMK16D38#jHc1r4JrN2N7). This has been edited to show the visualisation created by this project with the videos where the analysis originated from simultaneously.
 
 ### Key Features
 
@@ -89,9 +89,10 @@ This project analyzes emotions in videos using **DeepFace** and generates three 
 
 ### 2. Download the Project Folder
 - Download the entire project folder and place it in a location you remember.
+- Alternatively once this project is no longer anonymised, you can also clone the GitHub repository directly with git and then step 3 can be skipped.
 
 ### 3. Download or add Relevant Videos
-- Download the exemplary videos [here]{https://drive.proton.me/urls/T51K7N36PM#6fbJSMs2yPff}.
+- Download the exemplary videos [here](https://drive.proton.me/urls/T51K7N36PM#6fbJSMs2yPff).
 - After downloading, navigate to the "videos" folder within the project and replace the file with your own video(s) or the exemplary videos.
 
 ### 4. Navigate to the Project Folder
