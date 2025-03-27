@@ -34,6 +34,7 @@ This project analyzes emotions in videos using **DeepFace** and generates three 
 - **Static emotion distribution plots**: Visual representations of overall emotional trends.
 - **Animated timeline visualizations**: Dynamic timelines showing how emotions evolve throughout the video.
 - **Detailed CSV/Excel analysis reports**: Comprehensive data files containing emotion scores for each frame.
+- **Edited final product**: You can download a recommended depiction of the analysis under [this link]{https://drive.proton.me/urls/2GPMK16D38#jHc1r4JrN2N7}. This has been edited to show the visualisation created by this project with the videos where the analysis originated from simultaneously.
 
 ### Key Features
 
@@ -45,7 +46,7 @@ This project analyzes emotions in videos using **DeepFace** and generates three 
 
 ### Contents
 
-- **videos/**: A folder containing various video files used in the example
+- **videos/**: A folder containing various video files used in the example analysis.
 - **.gitattributes**: A Git LFS configuration file specifying which file types to track as large files (not relevant for running the analysis).
 - **analysis.py**: Script for analyzing the emotions of the subject within the videos.
 - **config.py**: Configuration settings (e.g., paths, environment variables) used throughout the project.
@@ -89,7 +90,11 @@ This project analyzes emotions in videos using **DeepFace** and generates three 
 ### 2. Download the Project Folder
 - Download the entire project folder and place it in a location you remember.
 
-### 3. Navigate to the Project Folder
+### 3. Download or add Relevant Videos
+- Download the exemplary videos [here]{https://drive.proton.me/urls/T51K7N36PM#6fbJSMs2yPff}.
+- After downloading, navigate to the "videos" folder within the project and replace the file with your own video(s) or the exemplary videos.
+
+### 4. Navigate to the Project Folder
 - Open **Anaconda Prompt** as an administrator.
 - Change directory (`cd`) to the project folder. For example:
   ```bash
@@ -97,12 +102,13 @@ This project analyzes emotions in videos using **DeepFace** and generates three 
   ```
 - To ensure the correct file path, navigate to the folder using **Explorer** (Windows), copy the folder path, and paste it into the terminal.
 
-### 4. Install Dependencies
+### 5. Install Dependencies
 - Run the following command to install all required dependencies:
   ```bash
   python install_dependencies.py
   ```
 - This ensures all necessary libraries, including FFmpeg, are installed properly.
+
 
 
 ## Conducting the Analysis
