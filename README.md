@@ -43,6 +43,21 @@ This project analyzes emotions in videos using **DeepFace** and generates three 
 - **Combined Analysis Reports**: Generates aggregated CSV and Excel files when analyzing multiple videos.
 
 
+### Contents
+
+- **videos/**: A folder containing various video files used in the example
+- **.gitattributes**: A Git LFS configuration file specifying which file types to track as large files (not relevant for running the analysis).
+- **analysis.py**: Script for analyzing the emotions of the subject within the videos.
+- **config.py**: Configuration settings (e.g., paths, environment variables) used throughout the project.
+- **ffmpeg_installer.py**: A helper script to install or manage FFmpeg, a tool for handling multimedia files.
+- **install_dependencies.py**: A script to install Python dependencies or other required packages for the project.
+- **main.py**: The main entry point for running the core functionality of the application.
+- **README.md**: This file, providing an overview and documentation for the project.
+- **requirements.txt**: A list of Python dependencies needed to run the project.
+- **visualisation.py**: A script handle the visualisation of the analysed data.
+- **combined_entrepreneur_pitch.mp4**: A demonstration of the analysis of all videos within the videos folder.
+
+
 ## Prerequisites
 
 1. **Windows Operating System**:
