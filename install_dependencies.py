@@ -3,8 +3,7 @@ import sys
 import importlib.util
 import subprocess
 import warnings
-import multiprocessing as mp
-from ffmpeg_installer import ensure_ffmpeg
+import multiprocessing as mp 
 
 # Suppress Python deprecation warnings.
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -13,8 +12,10 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '2'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # '3' hides INFO, WARNING & ERROR
 
-# Define the requirements path locally.
-REQUIREMENTS_PATH = "requirements.txt"
+# Define REQUIREMENTS_PATH relative to this script's location
+_INSTALL_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+# Assumes 'code_scripts' is a subdirectory of the directory containing install_dependencies.py
+REQUIREMENTS_PATH = os.path.join(_INSTALL_SCRIPT_DIR, "code_scripts", "requirements.txt")
 
 def install_dependencies(requirements_path):
     """
@@ -25,6 +26,7 @@ def install_dependencies(requirements_path):
 
     Raises:
         FileNotFoundError: If the requirements file is not found.
+        subprocess.CalledProcessError: If pip installation fails.
     """
     try:
         with open(requirements_path) as file:
@@ -38,8 +40,6 @@ def install_dependencies(requirements_path):
                 subprocess.check_call([sys.executable, "-m", "pip", "install", package])
             else:
                 print(f"Package '{package}' is already installed.")
-        # Ensure FFmpeg is installed.
-        ensure_ffmpeg()
     except FileNotFoundError:
         print(f"Error: '{requirements_path}' not found.")
         sys.exit(1)
