@@ -31,11 +31,6 @@ os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(CSV_DIR, exist_ok=True)
 os.makedirs(EXCEL_DIR, exist_ok=True)
 
-# Build the DeepFace model (default is OpenFace, please adjust in the config.py file).
-# Other options are: Facenet, VGG-Face, DeepID, ArcFace, GhostFaceNet.
-# DeepFace does allow for more models but they have not been easy to implement.
-emotion_model = DeepFace.build_model(config.EMOTION_MODEL)
-
 # Configuration of logging
 logging.basicConfig(
     level=logging.INFO,
@@ -96,25 +91,14 @@ def get_dominant_emotion(emo):
     if not emo:
         return 'no emotion detected'
     dominant = max(emo, key=emo.get)
-    dominant = max(emo, key=emo.get)
     threshold = config.EMOTION_SCORE_THRESHOLD if config.EMOTION_SCORE_THRESHOLD is not None else 50
     return dominant if emo[dominant] >= threshold else 'no dominant emotion detected'
 
 
 
-# Global variable for the preloaded model
-global_model = None
-
-# Initialiser of each worker / subprocess
-def init_worker(backend_model):
-    """Initialize each worker with a preloaded model."""
-    global global_model
-    global_model = backend_model
-
-
 def analyse_emotion_multiproc(args):
     """
-    Analyse a single frame using the preloaded DeepFace model.
+    Analyse a single frame using DeepFace.
     Args:
         args (tuple): Contains (frame, frame_number, backend).
     Returns:
@@ -125,7 +109,6 @@ def analyse_emotion_multiproc(args):
     if frame is None or frame.size == 0 or frame.shape[0] == 0 or frame.shape[1] == 0:
         return None, None, f'Invalid frame at frame number {frame_number}.'
     try:
-        # Perform DeepFace analysis using the preloaded model.
         analysis = DeepFace.analyze(
             img_path=frame,
             actions=['emotion'],
@@ -223,7 +206,7 @@ def analyse_video_internal(video_path, output_csv, excel_file, source, frame_ste
     analysed_frames = 0
     unsuccessful_retries = 0
 
-    with mp.Pool(processes=num_processes, initializer=init_worker, initargs=(emotion_model,)) as pool:
+    with mp.Pool(processes=num_processes) as pool:
         for res in pool.imap_unordered(analyse_emotion_multiproc, tasks):
             update_progress(res)  # Update progress
             analysis_dict, emotion, error = res
@@ -243,7 +226,7 @@ def analyse_video_internal(video_path, output_csv, excel_file, source, frame_ste
     duration = end_time - start_time
     logging.info(f"Finished processing video {video_path} at {time.ctime(end_time)}; Duration: {duration:.2f} seconds")
     logging.info("Analysis phase took %.2f seconds with the model %s",
-                 analysis_duration, emotion_model.__class__.__name__)  # Log the model used
+                 analysis_duration, config.EMOTION_MODEL)  # Log the model used
 
     # Build DataFrame and save results.
     if results:
